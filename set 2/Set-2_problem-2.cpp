@@ -51,34 +51,14 @@ while(stream >> i){
   int chance = 1;
   int temp=0;
   while(start + 1 < end ){
-    if(arr[start+1] > arr[end-1])
-    {
-      temp = arr[end];
-        end--;
-    }
-    else if (arr[start+1] < arr[end-1])
-    {
-     temp=  arr[start];
-        start++;
-    }
-    else{
-      if(arr[start] > arr[end]{
-      temp = arr[end];
-        end--;
-      }
-         else{
-          temp = arr[end];
-        end--;
-         }
-    }
   //cout << "start" <<start <<"end" <<end <<endl;
-/*  int first = abs(arr[start]-arr[end]);
+//int first = abs(arr[start]-arr[end]);
   int second = abs(arr[start+1]-arr[end]);
   int third = abs(arr[start]-arr[end-1]);
-//  cout << first<<" 2nd" << second<<"3rd" << third <<endl;
+//cout << first<<" 2nd " << second<<" 3rd " << third <<endl;
 temp=0;
 
-  if(first < second && first < third || first == second || second == third || third == first )
+/*  if((first < second && first < third) || (first == second || second == third || third == first ))
   {
       if (arr[start] > arr[end]){
         temp=  arr[start];
@@ -101,8 +81,10 @@ temp=0;
       }
 
   }
-  else if (second < first && second < third )
+  else*/
+  if ( second < third )
   {
+
     temp = arr[start];
     start++;
   }
@@ -110,14 +92,6 @@ temp=0;
     temp = arr[end];
     end--;
   }
-  */
-if(arr[start+1] > arr[end-1])
-{
-  temp = arr[end];
-  end--;
-}
-
-
 
   if(chance == 1) {player1 = player1+temp;chance=0;
   cout << "player1 " << temp<<endl ;
