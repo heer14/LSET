@@ -51,6 +51,26 @@ while(stream >> i){
   int chance = 1;
   int temp=0;
   while(start + 1 < end ){
+    if(arr[start+1] > arr[end-1])
+    {
+      temp = arr[end];
+        end--;
+    }
+    else if (arr[start+1] < arr[end-1])
+    {
+     temp=  arr[start];
+        start++;
+    }
+    else{
+      if(arr[start] > arr[end]{
+      temp = arr[end];
+        end--;
+      }
+         else{
+          temp = arr[end];
+        end--;
+         }
+    }
   //cout << "start" <<start <<"end" <<end <<endl;
 /*  int first = abs(arr[start]-arr[end]);
   int second = abs(arr[start+1]-arr[end]);
