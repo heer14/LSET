@@ -25,7 +25,106 @@ Print the output for the following array inputs:
 10000000,2,369,14,459,6,70
 */
 #include<iostream>
+#include<vector>
+#include <stdlib.h>
+#include <sstream>
+#include<string>
+#include<algorithm>
+using namespace std;
 int main(){
+  string s;
+  cin >> s;
+  int k=0;
+  vector<int> arr;
+  int player1=0,player2=0;
+replace(s.begin() , s.end(),',',' ');
+  stringstream stream(s);
+  int i;
 
+while(stream >> i){
+    arr.push_back(i);
+    //cout << arr[k]<<" ";
+    k++;
+}
+  int end = arr.size()-1;
+  int start=0;
+  int chance = 1;
+  int temp=0;
+  while(start + 1 < end ){
+  //cout << "start" <<start <<"end" <<end <<endl;
+/*  int first = abs(arr[start]-arr[end]);
+  int second = abs(arr[start+1]-arr[end]);
+  int third = abs(arr[start]-arr[end-1]);
+//  cout << first<<" 2nd" << second<<"3rd" << third <<endl;
+temp=0;
+
+  if(first < second && first < third || first == second || second == third || third == first )
+  {
+      if (arr[start] > arr[end]){
+        temp=  arr[start];
+        start++;
+      }
+      else if(arr[end] > arr[start]){
+        temp = arr[end];
+        end--;
+      }
+      else{
+        if(arr[start+1] > arr[end-1])
+        {
+          temp = arr[end];
+          end--;
+        }
+        else {
+          temp=  arr[start];
+          start++;
+        }
+      }
+
+  }
+  else if (second < first && second < third )
+  {
+    temp = arr[start];
+    start++;
+  }
+  else {
+    temp = arr[end];
+    end--;
+  }
+  */
+if(arr[start+1] > arr[end-1])
+{
+  temp = arr[end];
+  end--;
+}
+
+
+
+  if(chance == 1) {player1 = player1+temp;chance=0;
+  cout << "player1 " << temp<<endl ;
+}
+  else{player2= player2 + temp ; chance = 1;
+cout << "player2 " << temp <<endl ;
+  }
+  //cout << player1 << "," <<player2<<endl; ;
+
+}
+int min , max;
+if(arr[start] > arr[end]){
+   max = arr[start];min = arr[end];
+}
+else {
+   max = arr[end];min = arr[start];
+}
+if(chance == 1)
+{
+  player1 = player1 + max;
+  player2 = player2 + min;
+}
+else {
+  player1 = player1 + min;
+  player2 = player2 + max;
+}
+if (player1 >= player2) cout <<"True";
+else cout << "false";
   return 0;
 }
