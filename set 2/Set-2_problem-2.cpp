@@ -25,5 +25,7 @@ Print the output for the following array inputs:
 10000000,2,369,14,459,6,70
 */
 #include<iostream>
+int main(){
 
-
+  return 0;
+}
