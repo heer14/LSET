@@ -6,9 +6,9 @@
 
 void  sleepIn(int weekdays , int vacation){
     if(!weekdays || vacation)
-        printf("True");
+        printf("True/n");
     else
-        printf("False");
+        printf("False/n");
 
 }
 void main()
