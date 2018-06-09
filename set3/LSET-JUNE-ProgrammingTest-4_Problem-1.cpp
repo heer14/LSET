@@ -39,6 +39,7 @@ Output:
 3
 2
 */
+
 #include<iostream>
 using namspace std;
 int main(){
