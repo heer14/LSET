@@ -41,40 +41,84 @@ Output:
 */
 
 #include<iostream>
-using namspace std;
+using namespace std;
 int main(){
   int t;
-  cin << t;
+  std::cin >> t;
   int tn = 0;
+  int sol[t];
+  int last_shop = -99999;
   while(tn < t){
     int m,n;
-    cin >> m >> n;
-    int[][] prize = new int[n][m];
-    int[][] discount = new int[n][m];
+    std::cin >> m >> n;
+    int prize[n][m];
+    int discount[n][m];
+    int covered[m];
     for(int i=0;i<n;i++)
     {
-      for(int j=0;j < m;j++) cin >> prize[i][j];
-    }
-    for(int i=0;i<n;i++)
-    {
-      for(int j=0;j < m;j++) cin >> discount[i][j];
-    }
-    //logic
-    int sol=prize[0][0] ;
-    for(int i=1;i<n;i++)
-    {
-      int dis = discount[i-1][last_purchas];
-      int min = 0;
-      for(int k = 1 ;k<m;k++)
+      for(int j=0;j < m;j++)
+
       {
-        if(prize[i][k] > prize[i][min])
+        std::cin >> prize[i][j];
+        covered[j]  =0;
       }
     }
-
-
-    tn++;
-  }
-
+    for(int i=0;i<n;i++)
+    {
+      for(int j=0;j < m;j++) std::cin >> discount[i][j];
+    }
+    int ans =0;
+    //logic
+    // j -> items
+    for(int i=0;i<n;i++)
+    {
+      if(i == 0 ){
+        //choose least one
+        int min = 0;
+          for(int j = 1; j<m ;j++)
+          {
+              if(prize[i][j] < prize[min][j])
+                min = j;
+          }
+          last_shop = min;
+          covered[min] = 1;
+          ans = prize[i][min];
+          std::cout << prize[i][min]<< "is added" << endl  ;
+      }
+      else
+      {
+        int min = 9999999;
+        int min_index = 0;
+        int temp = 0;
+        for(int j=0 ; j<m; j++)
+        {
+          if(!covered[j])
+          {
+            if(j == last_shop )
+            {
+              temp  = prize[i][j] - discount[i][j-1] ;
+              if (temp < 0)
+                temp = 0;
+            }
+            else
+            {
+              temp = prize[i][j];
+            }
+          if( temp  <  min )
+              min = temp;
+              min_index = i;
+          }
+        }
+        last_shop = min_index;
+        covered[min_index] = 1;
+        ans =ans + min ;
+        std::cout << min <<"is added"  << endl  ;
+      }
+    }
+     sol[tn] = ans ;
+     tn++;
+   }
+   for(int i=0;i<t;i++)
+   std::cout << "solution" <<sol[i] << endl ;
   return 0;
-
 }
