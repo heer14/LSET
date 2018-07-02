@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: <<encoding>> -*-
 #-------------------------------------------------------------------------------
 #   <<project>>
@@ -9,7 +9,7 @@ import wx, wx.html
 import sys
 
 guide = """<p><h1>Hey Rupa</h1></p><p>Rupa , I am giving this to you , so that even if I may not be with you physically , I can be there with you in all your different moods.</p><p>Please select your current meed from 'Mood' tab :) </p><p>with lots of love, </p><p>Yours heer</p> """
-aboutText = """<p>Just for letting """
+aboutText = """<p>Just for letting you know that in your every moods, I will always be there :) """
 
 HappyText = """<p><h1>hey Baby ,</p><p> I am so glad that you are happy :) , because it makes me happy when you are happy! <p></p>your smile is very precious for me.</p><p>I don’t know what it is that made you so happy, but I hope you will be always happy like this</p>. <p>I know you’ve been kind of low the past few weeks and I know that you really needed this up. </p><p>I love you yaaar ! I hope everything you’ve been hoping for happens, and that you keep that lovely smile on your face (: I love your smile a lot :) </p>
 <p>only Yours , </p><p>Heer</p>"""
@@ -129,7 +129,7 @@ class SadBox(wx.Dialog):
 
 class AboutBox(wx.Dialog):
     def __init__(self):
-        wx.Dialog.__init__(self, None, -1, "About <<project>>",
+        wx.Dialog.__init__(self, None, -1, "About RUHI , ",
             style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER|
                 wx.TAB_TRAVERSAL)
         hwin = HtmlWindow(self, -1, size=(400,200))
