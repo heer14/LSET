@@ -1,0 +1,30 @@
+[Practical Test]
+Q1) 
+Program of escaping the water well for snail.
+
+                                                                               [Requirements]  One day, a snail fell into a water well.
+Depth of well should be taken in centimeter.
+During the day time, a snail climbs the wall of well for 50 centimeters, and it slides down the wall for 20 centimeters during the night time.
+How many days does it takes to escape from a water well. 
+
+[Conditions]
+1. When counting total days of escape, include the day of start.
+2. When a snail's position is same or higher than depth of a water well, a snail is considered to succeed in escaping.
+3. In case of depth of the well, you should give it in centimeter and in case of the execution result, you should print it out to 2 decimal places in meter.
+
+[Example of execution result]
+* Please input depth of the well(in Centimeter): 500
+It takes 16 days to escape from the 5.00 meters deep well.
+
+* Please input depth of the well(in Centimeter): 200
+It takes 6 days to escape from the 2.00 meters deep well.
+
+[Test data to check the result]
+When you give those well depths, you should have proper days of escape like below.
+
+well depth   0 cm: 0 day
+well depth 51 cm: 2 days
+well depth 81 cm: 3 days
+well depth 1~50 cm: 1 day
+well depth 80 cm: 2 days
+well depth 200 cm: 6 days
