@@ -16,7 +16,8 @@ int fib(int n)
 if(memo[n] == -1)
 {
   if(n == 1)memo[n] = 1;
-  else if(n == 2)memo[n] = 1;
+  else if(n == 2)memo[n] = 1
+  ;
   else memo[n] = fib(n-1) + fib(n-2);
 }
   return memo[n];
