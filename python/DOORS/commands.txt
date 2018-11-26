@@ -1,0 +1,5 @@
+C:\Program Files\IBM\Rational\DOORS\9.6\bin>
+python C:\Users\hiral.sanjaybhaishah\Desktop\Git\Programming\python\DOORS\file.py
+
+C:\Program Files\IBM\Rational\DOORS\9.6\bin>
+DOORS -user hiral.sanjaybhaishah -password 12345678 -batch C:\Users\hiral.sanjaybhaishah\Desktop\Git\Programming\python\DOORS\batchserver.dxl
