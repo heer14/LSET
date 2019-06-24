@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1551177521 source:e:\new_desktop\git\programming\c_and_cpp\codeblocks\problem-2\main.c
+	<stdio.h>
+	<stdlib.h>
+

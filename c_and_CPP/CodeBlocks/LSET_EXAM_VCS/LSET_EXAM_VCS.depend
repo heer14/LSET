@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1551176899 source:e:\new_desktop\git\programming\c_and_cpp\codeblocks\lset_exam_vcs\main.c
+	<stdio.h>
+	<stdlib.h>
+

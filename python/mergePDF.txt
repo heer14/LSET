@@ -1,0 +1,14 @@
+from PyPDF2 import PdfFileMerger
+import os
+
+path = r'H:\College Fourth Year\Development Project\Final Year Project 2018\Forensic Reports'
+
+pdf_files = ['Call Log Data Report.pdf','Canonical Address Data Report.pdf', 'Sim Card Data Report.pdf', 'SMS Data Report.pdf']
+
+merger = PdfFileMerger()
+
+for files in pdf_files:
+    PdfFileMerger.append(path + files)
+if not os.path.exists(path + 'Full Report.pdf'):
+    merger.write(path + 'Full Report.pdf')
+merger.close()
