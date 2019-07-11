@@ -17,10 +17,10 @@ class preprocessing :
         self.Preprocessing_core_PL_ = self.lib["?Preprocessing_core_PL@offline@@YAHPEAG000I@Z"]
         self.InitializePreProcessing_core_High_ = self.lib["?InitializePreProcessing_core@offline@@YA?AW4ErrorList@@PEADIW4APVersion@1@@Z"]
         
-    def InitializePreProcessing_core_Entry(self , path_for_Init_preprocessing_core) :
-        ret = self.InitializePreProcessing_core_Entry_(path_for_Init_preprocessing_core)
+    def InitializePreProcessing_core(self , path_for_Init_preprocessing_core) :
+        ret = self.InitializePreProcessing_core_Entry_(path_for_Init_preprocessing_core )
         return ret
-    
+    #not using
     def InitializePreProcessing_core_High(self , path_for_Init_preprocessing_core , nCameras ) :
         ret = self.InitializePreProcessing_core_High_(path_for_Init_preprocessing_core , nCameras)
         return ret    

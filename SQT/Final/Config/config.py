@@ -27,7 +27,12 @@ path_PP_D = "Output\\PP\\PP_3D\\"
 path_old = "BackUp\\output.zip"
 
 #oms high / entry ,  0-entry 1-high
-version = ""
+version = 1
+
+vga = 0
+
+#keep intermediate raw and pp images - 1-yes , 0-no
+keep_op = 1
 
 #Image data VGA(for input images)
 ip_h = 480
@@ -41,7 +46,7 @@ if version == 0 :
     width= 640
     buffersize = height * width * 2
 else :
-    height = 240
+    height =240
     width = 320
     buffersize = height * width * 2
 

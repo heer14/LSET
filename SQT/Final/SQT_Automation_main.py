@@ -17,6 +17,16 @@ from Include import ReportGenerator
 import argparse
 
 
+def Manage_Intermediate_output() : 
+    if (cfg.keep_op == 0) : 
+        output_dir = Path(cfg.Unprocessed_raw_Images).resolve()
+        if output_dir.exists() :
+            shutil.rmtree(cfg.Unprocessed_raw_Images)
+            print("Removing intermidiate raw and PP images")
+    else :
+        print("Intermediate raw and PP images has been made available at :"+str(cfg.Unprocessed_raw_Images))
+
+
 def set_env() :
     output_dir = Path(cfg.Unprocessed_raw_Images).resolve()
     if output_dir.exists() :
@@ -41,8 +51,8 @@ def Compare_Images_FC(preprocessing , version) :
     xlReport.create_worksheet()
     xlReport.set_header()
 
-    image11 = np.zeros((cfg.height , cfg.width) ,dtype=np.uint16 )
-    image21 = np.zeros((cfg.height , cfg.width) ,dtype=np.uint16 )
+    image11 = np.zeros((cfg.width , cfg.height) ,dtype=np.uint16 )
+    image21 = np.zeros((cfg.width , cfg.height) ,dtype=np.uint16 )
     ImgComp = ImageCompare.ImageCompare()
  
  
@@ -241,15 +251,12 @@ def Do_Preprocessing(preprocessing) :
     MakeDir(cfg.path_PP)
     MakeDir(cfg.path_PP_A)
     MakeDir(cfg.path_PP_D)
-    InDepth = np.zeros((cfg.ip_h , cfg.ip_w) ,dtype=np.uint16 )
-    InIR = np.zeros((cfg.ip_h , cfg.ip_w) ,dtype=np.uint16 )
-    OutDepth = np.zeros((cfg.height , cfg.width) ,dtype=np.uint16 )
-    ResizeIR = np.zeros((cfg.height , cfg.width) ,dtype=np.uint16 )
+    InDepth = np.zeros((cfg.ip_w , cfg.ip_h) ,dtype=np.uint16 )
+    InIR = np.zeros((cfg.ip_w , cfg.ip_h) ,dtype=np.uint16 )
+    OutDepth = np.zeros((cfg.width , cfg.height) ,dtype=np.uint16 )
+    ResizeIR = np.zeros((cfg.width , cfg.height) ,dtype=np.uint16 )
     cnt = 0
-    if(cfg.version == 0 ) :
-        ret = preprocessing.InitializePreProcessing_core_Entry(bytes(cfg.path_to_Bin, 'utf-8'))
-    else :
-        ret = preprocessing.InitializePreProcessing_core_High(bytes(cfg.path_to_Bin, 'utf-8') , ctypes.c_int(2))
+    ret = preprocessing.InitializePreProcessing_core(bytes(cfg.path_to_Bin, 'utf-8'))
     if (ret != 0) :
         print("ERROR in Initializing"+cfg.path_to_Bin)
     else :
@@ -264,12 +271,10 @@ def Do_Preprocessing(preprocessing) :
                         path_D = cfg.path_PP_D+"/PP_("+str(i)+")"+Image_D
                         i = i+1
                         if(ret == 0) :
-                            if(cfg.version == 0 ) :
-                                #print("Preprocessing for Entry - VGA to VGA")
-                                ret = preprocessing.Preprocessing_core_PL_VGA(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ctypes.c_int32(0))
+                            if(cfg.vga == 1 ) :
+                                ret = preprocessing.Preprocessing_core_PL_VGA(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)))
                             else : 
-                                #print("Preprocessing for High - VGA to QVGA")
-                                ret = preprocessing.Preprocessing_core_PL(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ctypes.c_int32(0))
+                                ret = preprocessing.Preprocessing_core_PL(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)))
                             if (ret == 0) : 
                                 ret = preprocessing.SaveRaw(bytes(path_A , 'utf-8') ,ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.buffersize )
                                 ret = preprocessing.SaveRaw(bytes(path_D , 'utf-8') ,OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.buffersize )
@@ -285,6 +290,12 @@ def Do_Preprocessing(preprocessing) :
 
 def checkArguments(args) :
     
+    if (args.sv.lower() == 'yes') :
+        cfg.keep_op = 1
+    elif (args.sv.lower() == 'no' ) :
+        cfg.keep_op = 0
+    else :
+         raise argparse.ArgumentTypeError("Invalid option for -sv "+str(args.sv))
     if (args.ov.lower() == 'high') :
         cfg.version = 1
     elif (args.ov.lower() == 'entry' ) :
@@ -323,6 +334,7 @@ def main() :
         parser.add_argument("Input_PP_files_2D", help = 'Path of preprocessed 2D images from SQT')
         parser.add_argument("Input_PP_files_3D" , help = 'Path of preprocessed 3D images from SQT')
         parser.add_argument("-ov" , help = 'Provide "entry" or "high" for OMS Version(by default - High)',default = "high")
+        parser.add_argument("-sv" , help = 'Provide "yes" or "no" to save intermediate raw and PP images(by default - No)',default = "no")
         
         args=parser.parse_args()
         
@@ -330,15 +342,18 @@ def main() :
         start = time.time()
 
 #start process flow
+        '''
         print("Image Extraction")
         Extract_Images()
         print("saprate Images")
         Saprate_Raw_Image()
+        '''
         preprocessing = OfflineFilterSDK.preprocessing(cfg.PreprocessingDLL)
         print("do preprocessing")
         Do_Preprocessing(preprocessing)
         print("compare images")
         Compare_Images_FC(preprocessing , args.ov)
+        Manage_Intermediate_output()
         end = time.time()
         print("Overall Time (in seconds) : "+str(end-start))
         
