@@ -1,9 +1,0 @@
-ImageExtractor Version 1.25
-Copyright 2017 LG Electronics
-All rights reserved
-
-Image Extraction
-Extracting Images
-Image extractor : Success
-saprate Images
-Saprating 2d and 3D Images

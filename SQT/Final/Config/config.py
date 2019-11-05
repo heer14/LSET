@@ -29,7 +29,8 @@ path_old = "BackUp\\output.zip"
 #oms high / entry ,  0-entry 1-high
 version = 1
 
-vga = 0
+#formate of output PP images , 0 for Qvga , 1 for vga
+IsVga = 0
 
 #keep intermediate raw and pp images - 1-yes , 0-no
 keep_op = 1
@@ -41,7 +42,7 @@ ip_bf = ip_h * ip_w *2
 
 
 #for output images
-if version == 0 :
+if IsVga == 1 :
     height = 480
     width= 640
     buffersize = height * width * 2
@@ -52,6 +53,6 @@ else :
 
 #report
 Report_path = "Reports\\"
-Report_Image_Compare = ""
+Report_Image_Compare = "Image_COmpare.xls"
 
 

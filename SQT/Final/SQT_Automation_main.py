@@ -267,17 +267,19 @@ def Do_Preprocessing(preprocessing) :
                     for date in re.findall(date , Image_A) :
                         ret = preprocessing.LoadRaw(bytes(cfg.path_raw_D+Image_D, 'utf-8'),InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.ip_bf)
                         ret = preprocessing.LoadRaw(bytes(cfg.path_raw_A+Image_A, 'utf-8'),InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.ip_bf)
+                        print(InDepth)
                         path_A = cfg.path_PP_A+"/PP_("+str(i)+")"+Image_A
                         path_D = cfg.path_PP_D+"/PP_("+str(i)+")"+Image_D
                         i = i+1
                         if(ret == 0) :
-                            if(cfg.vga == 1 ) :
-                                ret = preprocessing.Preprocessing_core_PL_VGA(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)))
+                            if(cfg.IsVga == 1 ) :
+                                ret = preprocessing.Preprocessing_core_PL_VGA(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , 0 )
                             else : 
-                                ret = preprocessing.Preprocessing_core_PL(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)))
+                                ret = preprocessing.Preprocessing_core_PL(InDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , InIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , 0)
+                            print(OutDepth)
                             if (ret == 0) : 
                                 ret = preprocessing.SaveRaw(bytes(path_A , 'utf-8') ,ResizeIR.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.buffersize )
-                                ret = preprocessing.SaveRaw(bytes(path_D , 'utf-8') ,OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)) , cfg.buffersize )
+                                ret = preprocessing.SaveRaw(bytes(path_D , 'utf-8') ,OutDepth.ctypes.data_as(ctypes.POINTER(ctypes.c_int16)), cfg.buffersize )
                                 cnt = cnt+1
                                 if(ret != 0) :
                                     sys.exit("ERROR in saving"+date)
@@ -290,6 +292,13 @@ def Do_Preprocessing(preprocessing) :
 
 def checkArguments(args) :
     
+    if (args.f.lower() == 'qvga') :
+        cfg.IsVga = 0
+    elif (args.sv.lower() == 'vga' ) :
+        cfg.IsVga = 1
+    else :
+         raise argparse.ArgumentTypeError("Invalid option for -sv "+str(args.sv))
+         
     if (args.sv.lower() == 'yes') :
         cfg.keep_op = 1
     elif (args.sv.lower() == 'no' ) :
@@ -326,7 +335,6 @@ def checkArguments(args) :
          raise argparse.ArgumentTypeError("Invalid path to 3D PP images : "+str(args.Input_PP_files_3D))    
     
 def main() :
-    try :
         
 #parse arguments
         parser = argparse.ArgumentParser(description="SQT automation Tool")
@@ -335,31 +343,27 @@ def main() :
         parser.add_argument("Input_PP_files_3D" , help = 'Path of preprocessed 3D images from SQT')
         parser.add_argument("-ov" , help = 'Provide "entry" or "high" for OMS Version(by default - High)',default = "high")
         parser.add_argument("-sv" , help = 'Provide "yes" or "no" to save intermediate raw and PP images(by default - No)',default = "no")
+        parser.add_argument("-f" , help = 'Provide formate of the preprocessed images(i.e. "VGA" or "QVGA")',default = "QVGA")
         
-        args=parser.parse_args()
+        args=parser.parse_args("")
         
         checkArguments(args)
         start = time.time()
 
 #start process flow
-        '''
-        print("Image Extraction")
         Extract_Images()
-        print("saprate Images")
         Saprate_Raw_Image()
-        '''
         preprocessing = OfflineFilterSDK.preprocessing(cfg.PreprocessingDLL)
-        print("do preprocessing")
         Do_Preprocessing(preprocessing)
-        print("compare images")
         Compare_Images_FC(preprocessing , args.ov)
         Manage_Intermediate_output()
         end = time.time()
         print("Overall Time (in seconds) : "+str(end-start))
         
-    except Exception as e:
+        '''
+        except Exception as e:
         print("Error occurred! "+ str(e))       
-
+        '''
 if __name__ == '__main__':
 	main()
 
