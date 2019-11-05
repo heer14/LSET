@@ -7,33 +7,38 @@ input_dat_path = ""
 path_test_2D = ""
 path_test_3D = ""
 
+
+TOLERANCE_DIFF_PIXELS  = 32
+TOLERANCE_PIXEL_WISE_DIFF = 1.0
+
+
+
 #set env
 image_extractor_path = "ImageExtractor\\ImageExtractor.exe"
 Unprocessed_raw_Images = "Output" 
-PreprocessingDLL = "OfflineFilterSDK.dll"
-path_to_Bin = "Output\\0000000000\\"
+PreprocessingDLL = "OfflineFilterSDK_0.50_release.dll"
+path_to_Bin = "\\0000000000\\"
 
 # Raw Images
-path_raw =  "Output\\0000000000\\"
-path_raw_A = "Output\\0000000000\\IR\\"
-path_raw_D = "Output\\0000000000\\Depth\\"
+path_raw =  "\\0000000000\\"
+path_raw_A ="\\0000000000\\IR\\"
+path_raw_D ="\\0000000000\\Depth\\"
 
 #preprocessed Images
-path_PP =  "Output\\PP\\ "
-path_PP_A = "Output\\PP\\PP_2D\\"
-path_PP_D = "Output\\PP\\PP_3D\\"
+path_PP =  "\\PP\\ "
+path_PP_A = "\\PP\\PP_2D\\"
+path_PP_D = "\\PP\\PP_3D\\"
 
-#old_path
-path_old = "BackUp\\output.zip"
 
-#oms high / entry ,  0-entry 1-high
+
+#oms high / entry ,  1-entry 2-min 3-max
 version = 1
 
 #formate of output PP images , 0 for Qvga , 1 for vga
 IsVga = 0
 
 #keep intermediate raw and pp images - 1-yes , 0-no
-keep_op = 1
+keep_op = 0
 
 #Image data VGA(for input images)
 ip_h = 480
@@ -52,7 +57,13 @@ else :
     buffersize = height * width * 2
 
 #report
-Report_path = "Reports\\"
-Report_Image_Compare = "Image_COmpare.xls"
+Report_path = ""
+Report_Image_Compare = "Image_COmpare.xlsx"
+
+#referance file - static - need to add as input 
+ref_file = ""
+path_to_calib = "\\0000000000\\omscal_extrinsic_*.bin"
+
+
 
 
